@@ -58,7 +58,7 @@ public class FundamentosApplication implements CommandLineRunner {
         User user1 = new User("John", "john@domain.com", LocalDate.of(2021, 3, 15));
         User user2 = new User("Julie", "julie@domain.com", LocalDate.of(2019, 5, 20));
         User user3 = new User("Daniela", "daniela@domain.com", LocalDate.of(2021, 3, 25));
-        User user4 = new User("Oscar", "oscar@domain.com", LocalDate.now());
+        User user4 = new User("Oscar", "oscar@domain.com", LocalDate.of(2001, 5, 25));
         User user5 = new User("Test1", "test1@domain.com", LocalDate.of(2015, 9, 7));
         User user6 = new User("Test2", "test2@domain.com", LocalDate.of(2020, 6, 1));
         User user7 = new User("Test3", "test3@domain.com", LocalDate.of(2022, 2, 1));
@@ -76,13 +76,42 @@ public class FundamentosApplication implements CommandLineRunner {
     }
 
     private void getInfoJpqlFromUser() {
-        LOGGER.info("User by email: " + userRepository
+        /*LOGGER.info("User by email: " + userRepository
                 .findByUserEmail("julie@domain.com")
                 .orElseThrow(() -> new RuntimeException("User not found!")));
 
         userRepository.findAndSort("Test", Sort.by("id")
                         .descending())
                 .forEach(user -> LOGGER.info("User sorted by id - Query JPQL: " + user));
+
+        userRepository.findUserByName("Oscar")
+                .forEach(user -> LOGGER.info("User - Query Method: " + user));
+
+        userRepository.findByNameContaining("li")
+                        .forEach(user -> LOGGER.info("User findByNameContaining: "));
+
+        userRepository.findByNameLike("%l%")
+                .forEach(user -> LOGGER.info("User findByNameLike: "));
+
+        LOGGER.info("User findByEmailAndName: " + userRepository
+                .findByEmailAndName("test2@domain.com", "Test2")
+                .orElseThrow(() -> new RuntimeException("User not found! - findByEmailAndName")));
+
+        userRepository.findByNameOrEmail(null, "daniela@domain.com")
+                .forEach(user -> LOGGER.info("User findByNameOrEmail: " + user));
+
+        userRepository.findByBirthDateBetween(
+                LocalDate.of(1997, 5, 13), LocalDate.of(2008, 10, 18))
+                .forEach(user -> LOGGER.info("User findByBirthDateBetween: " + user));
+
+        userRepository.findByNameLikeOrderByIdDesc("%la%")
+                .forEach(user -> LOGGER.info("User findByNameLikeOrderByIdDesc: " + user));
+
+        userRepository.findByNameContainingOrderByIdDesc("la")
+                .forEach(user -> LOGGER.info("User findByNameContainingOrderByIdDesc: " + user));*/
+
+        LOGGER.info("users getAllByBirthDateAndEmail - Named Parameters: " + userRepository.getAllByBirthDateAndEmail(LocalDate.of(2021, 3, 25), "daniela@domain.com")
+                .orElseThrow(() -> new RuntimeException("User not found! - Named Parameters")));
     }
 
     private void oldLessons() {
