@@ -16,4 +16,9 @@ public class GetUserImpl implements IGetUser {
     public List<User> getAll() {
         return userService.getAllUsers();
     }
+
+    @Override
+    public List<User> getAllPaging(int page, int size) {
+        return userService.getAllPaging(page, size);
+    }
 }

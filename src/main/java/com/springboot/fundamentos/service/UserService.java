@@ -4,6 +4,7 @@ import com.springboot.fundamentos.entity.User;
 import com.springboot.fundamentos.repository.IUserRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -43,5 +44,10 @@ public class UserService {
             u.setBirthDate(user.getBirthDate());
             return userRepository.save(user);
         }).get();
+    }
+
+    public List<User> getAllPaging(int page, int size) {
+        return userRepository.findAll(PageRequest.of(page, size))
+                .getContent();
     }
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IGetUser {
     List<User> getAll();
+    List<User> getAllPaging(int page, int size);
 }

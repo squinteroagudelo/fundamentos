@@ -1,10 +1,12 @@
 package com.springboot.fundamentos.controller;
 
 import com.springboot.fundamentos.entity.User;
+import com.springboot.fundamentos.repository.IUserRepository;
 import com.springboot.fundamentos.usecase.CreateUser;
 import com.springboot.fundamentos.usecase.DeleteUser;
 import com.springboot.fundamentos.usecase.IGetUser;
 import com.springboot.fundamentos.usecase.UpdateUser;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +20,14 @@ public class UserRestController {
     private CreateUser createUser;
     private DeleteUser deleteUser;
     private UpdateUser updateUser;
+    private IUserRepository userRepository;
 
-    public UserRestController(IGetUser getUser, CreateUser createUser, DeleteUser deleteUser, UpdateUser updateUser) {
+    public UserRestController(IGetUser getUser, CreateUser createUser, DeleteUser deleteUser, UpdateUser updateUser, IUserRepository userRepository) {
         this.getUser = getUser;
         this.createUser = createUser;
         this.deleteUser = deleteUser;
         this.updateUser = updateUser;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/all")
@@ -45,5 +49,10 @@ public class UserRestController {
     @PutMapping("/{id}")
     ResponseEntity<User> modifyUser(@RequestBody User user, @PathVariable Long id) {
         return new ResponseEntity<>(updateUser.update(user, id), HttpStatus.OK);
+    }
+
+    @GetMapping("/paging")
+    List<User> getUsersPaging(@RequestParam int page, @RequestParam int size){
+        return getUser.getAllPaging(page, size);
     }
 }
