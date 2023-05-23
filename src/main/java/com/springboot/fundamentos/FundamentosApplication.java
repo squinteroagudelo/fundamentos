@@ -51,9 +51,9 @@ public class FundamentosApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /*initializeUsers();
-        getInfoJpqlFromUser();*/
-        saveTransactional();
+        initializeUsers();
+        /*getInfoJpqlFromUser();
+        saveTransactional();*/
     }
 
     private void initializeUsers() {
