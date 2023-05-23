@@ -15,7 +15,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private Long id;
     private String name;
-    @Column(length = 50, unique = true)
+    @Column(length = 50)
     private String email;
     @Column(name = "birth_date")
     private LocalDate birthDate;
@@ -31,6 +31,10 @@ public class User {
         this.name = name;
         this.email = email;
         this.birthDate = birthDate;
+    }
+
+    public User(Long id) {
+
     }
 
     public Long getId() {

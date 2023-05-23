@@ -4,6 +4,7 @@ import com.springboot.fundamentos.bean.IBeanWithProperties;
 import com.springboot.fundamentos.bean.IMyBean;
 import com.springboot.fundamentos.bean.IMyBeanWithDependency;
 import com.springboot.fundamentos.component.IComponentDependency;
+import com.springboot.fundamentos.entity.Post;
 import com.springboot.fundamentos.entity.User;
 import com.springboot.fundamentos.pojo.UserPojo;
 import com.springboot.fundamentos.repository.IPostRepository;
@@ -51,9 +52,9 @@ public class FundamentosApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /*initializeUsers();
-        getInfoJpqlFromUser();*/
-        saveTransactional();
+        initializeUsers();
+        /*getInfoJpqlFromUser();
+        saveTransactional();*/
     }
 
     private void initializeUsers() {
