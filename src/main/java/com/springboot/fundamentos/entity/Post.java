@@ -23,6 +23,11 @@ public class Post {
         this.description = description;
     }
 
+    public Post(String description, User user) {
+        this.description = description;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }

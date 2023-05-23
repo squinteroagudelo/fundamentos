@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, unique = true)
     private Long id;
     private String name;
-    @Column(length = 50)
+    @Column(length = 50, unique = true)
     private String email;
     @Column(name = "birth_date")
     private LocalDate birthDate;
@@ -75,12 +75,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{"+
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", birthDate='" + birthDate + '\'' +
-                ", posts='" + getPosts() +
-                '}';
+        return "\nUser " + id + ": " +
+                "\n\tid: " + id +
+                ",\n\tname: '" + name + '\'' +
+                ",\n\temail: '" + email + '\'' +
+                ",\n\tbirthDate: '" + birthDate + '\'' +
+                ",\n\tposts: '" + getPosts();
     }
 }
