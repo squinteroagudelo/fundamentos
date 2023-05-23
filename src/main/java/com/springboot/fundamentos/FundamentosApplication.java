@@ -4,18 +4,17 @@ import com.springboot.fundamentos.bean.IBeanWithProperties;
 import com.springboot.fundamentos.bean.IMyBean;
 import com.springboot.fundamentos.bean.IMyBeanWithDependency;
 import com.springboot.fundamentos.component.IComponentDependency;
-import com.springboot.fundamentos.entity.Post;
 import com.springboot.fundamentos.entity.User;
 import com.springboot.fundamentos.pojo.UserPojo;
 import com.springboot.fundamentos.repository.IPostRepository;
 import com.springboot.fundamentos.repository.IUserRepository;
+import com.springboot.fundamentos.service.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -32,15 +31,17 @@ public class FundamentosApplication implements CommandLineRunner {
     private final IBeanWithProperties beanWithProperties;
     private final UserPojo userPojo;
     private final IUserRepository userRepository;
+    private final UserService userService;
     private final IPostRepository postRepository;
 
-    public FundamentosApplication(@Qualifier("componentAnotherImpl") IComponentDependency componentDependency, IMyBean myBean, IMyBeanWithDependency myBeanWithDependency, IBeanWithProperties beanWithProperties, UserPojo userPojo, IUserRepository userRepository, IPostRepository postRepository) {
+    public FundamentosApplication(@Qualifier("componentAnotherImpl") IComponentDependency componentDependency, IMyBean myBean, IMyBeanWithDependency myBeanWithDependency, IBeanWithProperties beanWithProperties, UserPojo userPojo, IUserRepository userRepository, UserService userService, IPostRepository postRepository) {
         this.componentDependency = componentDependency;
         this.myBean = myBean;
         this.myBeanWithDependency = myBeanWithDependency;
         this.beanWithProperties = beanWithProperties;
         this.userPojo = userPojo;
         this.userRepository = userRepository;
+        this.userService = userService;
         this.postRepository = postRepository;
     }
 
@@ -50,8 +51,9 @@ public class FundamentosApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        initializeUsers();
-        getInfoJpqlFromUser();
+        /*initializeUsers();
+        getInfoJpqlFromUser();*/
+        saveTransactional();
     }
 
     private void initializeUsers() {
@@ -112,6 +114,21 @@ public class FundamentosApplication implements CommandLineRunner {
 
         LOGGER.info("users getAllByBirthDateAndEmail - Named Parameters: " + userRepository.getAllByBirthDateAndEmail(LocalDate.of(2021, 3, 25), "daniela@domain.com")
                 .orElseThrow(() -> new RuntimeException("User not found! - Named Parameters")));
+    }
+
+    private void saveTransactional() {
+        User user10 = new User("Test10", "test10@domain.com", LocalDate.of(1995, 11, 20));
+        User user11 = new User("Test11", "test11@domain.com", LocalDate.of(2009, 7, 19));
+        User user12 = new User("Test12", "test12@domain.com", LocalDate.of(1994, 9, 28));
+        User user13 = new User("Test13", "test13@domain.com", LocalDate.of(1995, 12, 17));
+
+        List<User> users = Arrays.asList(user10, user11, user12, user13);
+        try {
+            userService.saveTransactional(users);
+        } catch (Exception e) {
+            LOGGER.error("Exception into transactional method: " + e.getMessage());
+        }
+        userService.getAllUsers().forEach(user -> LOGGER.info("User transactional: " + user));
     }
 
     private void oldLessons() {

@@ -38,7 +38,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     List<User> findByNameContainingOrderByIdDesc(String name);
 
     //    Named Parameter
-    @Query("select new com.springboot.fundamentos.dto.UserDto(u.name, u.email, u.birthDate)" +
+    @Query("select new com.springboot.fundamentos.dto.UserDto(u.id, u.name, u.email, u.birthDate)" +
             " from User u " +
             " where u.birthDate=:birth" +
             " and u.email=:mail")
